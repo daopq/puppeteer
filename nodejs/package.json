@@ -1,0 +1,12 @@
+{
+  "name": "puppeteer-issues",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^0.10.2"
+  }
+}
