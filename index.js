@@ -1,27 +1,25 @@
 
 // Include library
-var fs = require("fs");
-var puppeteer = require("puppeteer");
-var argv = require('minimist')(process.argv.slice(2));
+const fs = require("fs");
+const puppeteer = require("puppeteer");
+const argv = require('minimist')(process.argv.slice(2));
 
 // Parameter that pass from command line
-var imageType = argv.format;
-var imageWidth = argv.viewportWidth;
-var imageHeight = argv.viewportHeight;
-var svgFile = argv.url;
-var pathToSaveFile = argv.imagePath;
+const imageType = argv.format;
+const imageWidth = argv.viewportWidth;
+const imageHeight = argv.viewportHeight;
+const svgFile = argv.url;
+const pathToSaveFile = argv.imagePath;
 
 (async () => {
-	var page;
-	var brower;
 	try {
-		var testContent = fs.readFileSync(svgFile, "utf-8");
+		const testContent = fs.readFileSync(svgFile, "utf-8");
 
 		// Initial brower
-		browser = await puppeteer.launch({ headless: true });
+		const browser = await puppeteer.launch({ headless: true });
 
 		// Initial new page from browser
-		page = await browser.newPage();
+		const page = await browser.newPage();
 
 		// Set width, height base on parameter
 		await page.setViewport({width:imageWidth, height:imageHeight});
@@ -34,7 +32,7 @@ var pathToSaveFile = argv.imagePath;
 		await loaded
 
 		// Option for screen to capture image
-		var screenOptions = new Object();
+		const screenOptions = new Object();
 		screenOptions.path = pathToSaveFile;
 
 		// If image is jpeg
@@ -46,10 +44,12 @@ var pathToSaveFile = argv.imagePath;
 		screenOptions.type = imageType;
 
 		// Screen shot
-		await page.screenshot(screenOptions);
-		//await page.close();
+		await page.screenshot(screenOptions)
+			.catch(
+				(err) => console.log(`Processing Image Clear Array INIT again ${err}`)
+			);
+		await page.close();
 		await browser.close();
-
 
 		// Write log success
 		console.log("OK");
